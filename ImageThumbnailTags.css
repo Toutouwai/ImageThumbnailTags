@@ -17,3 +17,5 @@
   outline: 1px solid white;
   margin-top: 1px;
   margin-right: 1px; }
+.gridImage__overflow.focusWrap .itt-tags {
+  display: none; }

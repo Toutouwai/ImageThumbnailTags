@@ -3,4 +3,7 @@
 		.InputfieldImageEditAll & { left:10px; bottom:10px; }
 	}
 	.itt-tag { float:left; padding:2px 5px; font-size:12px; line-height:1.3; color:white; background:black; outline:1px solid white; margin-top:1px; margin-right:1px; }
+	&.focusWrap {
+		.itt-tags { display:none; }
+	}
 }
