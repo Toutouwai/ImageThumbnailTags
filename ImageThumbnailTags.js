@@ -8,7 +8,6 @@
 			var $grid_image = $('#' + grid_image_id);
 			if(!$grid_image.length) return;
 			if($(this).val()) {
-				// Add tags preview
 				var $itt_tags = $('<div class="itt-tags"></div>').appendTo($grid_image.find('.gridImage__overflow'));
 				var tags = $(this).val().split(' ');
 				$.each(tags, function(index, value) {
