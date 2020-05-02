@@ -1,0 +1,74 @@
+<?php namespace ProcessWire;
+
+class ImageThumbnailTags extends WireData implements Module, ConfigurableModule {
+
+	/**
+	 * Module information
+	 */
+	public static function getModuleInfo() {
+		return array(
+			'title' => 'Image Thumbnail Tags',
+			'summary' => 'Displays image tags overlaid on the thumbnail using customisable colours.',
+			'version' => '0.1.0',
+			'author' => 'Robin Sallis',
+			'href' => 'https://github.com/Toutouwai/ImageThumbnailTags',
+			'icon' => 'tag',
+			'autoload' => 'template=admin',
+			'requires' => 'ProcessWire>=3.0.0, PHP>=5.4.0',
+		);
+	}
+
+	/**
+	 * Ready
+	 */
+	public function ready() {
+		$this->addHookAfter('InputfieldImage::renderReadyHook', $this, 'afterRenderReady');
+	}
+
+	/**
+	 * After InputfieldImage::renderReadyHook
+	 * Load assets and add tag colours CSS
+	 *
+	 * @param HookEvent $event
+	 */
+	protected function afterRenderReady(HookEvent $event) {
+		/** @var InputfieldImage $inputfield */
+		$inputfield = $event->object;
+		if($this->tag_colours) {
+			$lines = explode("\n", str_replace("\r", "", $this->tag_colours));
+			$css = '';
+			foreach($lines as $line) {
+				$pieces = explode(':', $line);
+				if(!count($pieces) === 2) continue;
+				list($tag, $colour) = $pieces;
+				$css .= ".gridImage__overflow .itt-tag.itt-{$tag} { background-color:{$colour}; }\n";
+			}
+			$inputfield->appendMarkup = "<style>$css</style>";
+		}
+
+		// Add module CSS and JS
+		$config = $this->wire('config');
+		$info = $this->getModuleInfo();
+		$version = $info['version'];
+		$config->styles->add($config->urls->$this . "{$this}.css?v=$version");
+		$config->scripts->add($config->urls->$this . "{$this}.js?v=$version");
+	}
+
+	/**
+	 * Config inputfields
+	 *
+	 * @param InputfieldWrapper $inputfields
+	 */
+	public function getModuleConfigInputfields($inputfields) {
+		$modules = $this->wire('modules');
+		/** @var InputfieldTextarea $f */
+		$f = $modules->get('InputfieldTextarea');
+		$f_name = 'tag_colours';
+		$f->name = $f_name;
+		$f->label = $this->_('Tag colours');
+		$f->description = $this->_('Enter tag colours in the form [tag]:[colour], one per line. For example, `portrait:#663399`');
+		$f->value = $this->$f_name;
+		$inputfields->add($f);
+	}
+
+}
