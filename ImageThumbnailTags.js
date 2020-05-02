@@ -2,7 +2,7 @@
 
 	function addThumbnailTags() {
 		$('.itt-tags').remove();
-		$('input.InputfieldFileTagsInput').each(function() {
+		$('input.InputfieldFileTagsInput, input.InputfieldFileTagsSelect').each(function() {
 			var field_name = $(this).closest('.InputfieldImage').attr('id').replace('wrap_Inputfield_', '');
 			var grid_image_id = $(this).attr('name').replace('tags_' + field_name, 'file');
 			var $grid_image = $('#' + grid_image_id);
@@ -19,7 +19,7 @@
 
 	$(document).ready(function() {
 		addThumbnailTags();
-		$(document).on('change', 'input.InputfieldFileTagsInput', addThumbnailTags);
+		$(document).on('change', 'input.InputfieldFileTagsInput, input.InputfieldFileTagsSelect', addThumbnailTags);
 		$(document).on('ajaxComplete', addThumbnailTags);
 	});
 

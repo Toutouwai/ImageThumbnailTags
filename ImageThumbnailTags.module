@@ -9,7 +9,7 @@ class ImageThumbnailTags extends WireData implements Module, ConfigurableModule 
 		return array(
 			'title' => 'Image Thumbnail Tags',
 			'summary' => 'Displays image tags overlaid on the thumbnail using customisable colours.',
-			'version' => '0.1.0',
+			'version' => '0.1.1',
 			'author' => 'Robin Sallis',
 			'href' => 'https://github.com/Toutouwai/ImageThumbnailTags',
 			'icon' => 'tag',
